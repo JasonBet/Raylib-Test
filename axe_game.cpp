@@ -2,6 +2,8 @@
 
 int main()
 {
-    InitWindow(350,200,"Axe");
+    int width;
+    width=350;
+    InitWindow(width,200,"Axe");
     return 0;
 }
