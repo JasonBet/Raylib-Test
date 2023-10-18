@@ -28,6 +28,12 @@ int main()
     int u_axe_y=axe_y;
     int b_axe_y=axe_y+axe_length;
 
+    // collision detection
+    bool collision_with_axe=
+                        (b_axe_y>=u_circle_y)&&
+                        (u_axe_y<=b_circle_y)&&
+                        (r_axe_x>=l_circle_x)&&
+                        (l_axe_x<=r_circle_x);
     // set FPS
     SetTargetFPS(60);
     while(!WindowShouldClose())
@@ -35,34 +41,62 @@ int main()
         BeginDrawing();
         ClearBackground(WHITE);
         
-        // Game logic begins
-        DrawCircle(circle_x,circle_y,circle_radius,BLUE);
-        DrawRectangle(axe_x,axe_y,axe_length,axe_length,RED);
 
-        // moving axe
-        axe_y+=direction;
-        if(axe_y>height||axe_y<0)
+        if(collision_with_axe)
         {
-            direction=-direction;
+            DrawText("GAME OVER", 400,200,20,RED);
+        }
+        else
+        {
+            // Game logic begins
+
+            // update edges
+            l_circle_x=circle_x-circle_radius;
+            r_circle_x=circle_x+circle_radius;
+            u_circle_y=circle_y-circle_radius;
+            b_circle_y=circle_y+circle_radius;
+
+            l_axe_x=axe_x;
+            r_axe_x=axe_x+axe_length;
+            u_axe_y=axe_y;
+            b_axe_y=axe_y+axe_length;
+
+            // update collision with axe
+            collision_with_axe=
+                        (b_axe_y>=u_circle_y)&&
+                        (u_axe_y<=b_circle_y)&&
+                        (r_axe_x>=l_circle_x)&&
+                        (l_axe_x<=r_circle_x);
+
+            DrawCircle(circle_x,circle_y,circle_radius,BLUE);
+            DrawRectangle(axe_x,axe_y,axe_length,axe_length,RED);
+
+            // moving axe
+            axe_y+=direction;
+            if(axe_y>height||axe_y<0)
+            {
+                direction=-direction;
+            }
+            
+            if(IsKeyDown(KEY_D)&&circle_x<width)
+            {
+                circle_x+=5;
+            }
+            if(IsKeyDown(KEY_A)&&circle_x>0)
+            {
+                circle_x-=5;
+            }
+            if(IsKeyDown(KEY_S))
+            {
+                circle_y+=5;
+            }
+            if(IsKeyDown(KEY_W))
+            {
+                circle_y-=5;
+            }
+
         }
         
-        if(IsKeyDown(KEY_D)&&circle_x<width)
-        {
-            circle_x+=5;
-        }
-        if(IsKeyDown(KEY_A)&&circle_x>0)
-        {
-            circle_x-=5;
-        }
-        if(IsKeyDown(KEY_S))
-        {
-            circle_y+=5;
-        }
-        if(IsKeyDown(KEY_W))
-        {
-            circle_y-=5;
-        }
-
         EndDrawing();
     }
     return 0;
