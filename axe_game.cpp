@@ -41,12 +41,12 @@ int main()
 
         // moving axe
         axe_y+=direction;
-        if(axe_y>450||axe_y<0)
+        if(axe_y>height||axe_y<0)
         {
             direction=-direction;
         }
         
-        if(IsKeyDown(KEY_D)&&circle_x<350)
+        if(IsKeyDown(KEY_D)&&circle_x<width)
         {
             circle_x+=5;
         }
@@ -56,11 +56,11 @@ int main()
         }
         if(IsKeyDown(KEY_S))
         {
-            circle_y+=3;
+            circle_y+=5;
         }
         if(IsKeyDown(KEY_W))
         {
-            circle_y-=3;
+            circle_y-=5;
         }
 
         EndDrawing();
